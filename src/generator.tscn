@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnwk8s63y5cgv"]
+
+[ext_resource type="Texture2D" uid="uid://cgxi1tkw8bbvi" path="res://assets/generator.png" id="1_w7kea"]
+[ext_resource type="Script" path="res://src/generator.gd" id="2_28bru"]
+
+[node name="Generator" type="Sprite2D"]
+texture = ExtResource("1_w7kea")
+script = ExtResource("2_28bru")
+
+[node name="WaitingTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="WaitingTimer" to="." method="_on_waiting_timer_timeout"]

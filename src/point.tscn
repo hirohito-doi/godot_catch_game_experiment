@@ -1,0 +1,58 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgg0gwu3psjd4"]
+
+[ext_resource type="Script" path="res://src/point.gd" id="1_20ydu"]
+
+[sub_resource type="Animation" id="Animation_ql2o5"]
+resource_name = "fadeout"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Label:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -100)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nbtuk"]
+_data = {
+"fadeout": SubResource("Animation_ql2o5")
+}
+
+[node name="Point" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 85.0
+offset_bottom = 45.0
+script = ExtResource("1_20ydu")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 85.0
+offset_bottom = 45.0
+theme_override_font_sizes/font_size = 30
+text = "+9999"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "fadeout"
+libraries = {
+"": SubResource("AnimationLibrary_nbtuk")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

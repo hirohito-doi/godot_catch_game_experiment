@@ -1,11 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://bts45cp85hbqj"]
+[gd_scene load_steps=5 format=3 uid="uid://bts45cp85hbqj"]
 
 [ext_resource type="PackedScene" uid="uid://d3bco6gm5n5de" path="res://src/character.tscn" id="1_qoxd6"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_bpfyx"]
-size = Vector2(640, 94.5)
+[ext_resource type="Script" path="res://src/main.gd" id="1_yyck8"]
+[ext_resource type="PackedScene" uid="uid://cnwk8s63y5cgv" path="res://src/generator.tscn" id="2_3nmb0"]
+[ext_resource type="Theme" uid="uid://4yu34yxmkvgv" path="res://assets/fonts/default.tres" id="3_vc3ew"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_yyck8")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -13,13 +14,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.666667, 0.270588, 0.164706, 1)
-
-[node name="Character" parent="." instance=ExtResource("1_qoxd6")]
-position = Vector2(287, 289)
+color = Color(0.498039, 0.270588, 0.494118, 1)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(320, 480)
+collision_layer = 2
 
 [node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
 anchors_preset = 12
@@ -31,8 +30,89 @@ offset_top = -96.0
 offset_right = 320.0
 grow_horizontal = 2
 grow_vertical = 0
-color = Color(0.870588, 0.470588, 0.341176, 1)
+color = Color(0.976471, 0.615686, 0.482353, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, -48.75)
-shape = SubResource("RectangleShape2D_bpfyx")
+[node name="ColorRect2" type="ColorRect" parent="StaticBody2D"]
+offset_left = -320.0
+offset_top = -216.0
+offset_right = -70.0
+offset_bottom = -71.0
+rotation = 0.508108
+color = Color(0.976471, 0.615686, 0.482353, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="StaticBody2D"]
+offset_left = 120.0
+offset_top = -168.0
+offset_right = 320.0
+offset_bottom = -160.0
+color = Color(0.976471, 0.615686, 0.482353, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="StaticBody2D"]
+offset_left = 168.0
+offset_top = -160.0
+offset_right = 320.0
+offset_bottom = -96.0
+color = Color(0.976471, 0.615686, 0.482353, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="StaticBody2D"]
+offset_left = 272.0
+offset_top = -168.0
+offset_right = 359.0
+offset_bottom = -128.0
+rotation = -0.926123
+color = Color(0.976471, 0.615686, 0.482353, 1)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+visible = false
+polygon = PackedVector2Array(-320, 0, -320, -216, -104, -96, 168, -96, 168, -160, 120, -160, 120, -168, 272, -168, 320, -232, 320, 0)
+
+[node name="Character" parent="." instance=ExtResource("1_qoxd6")]
+position = Vector2(287, 289)
+
+[node name="Generator" parent="." instance=ExtResource("2_3nmb0")]
+position = Vector2(320, 112)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ScoreContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 232.0
+offset_bottom = 64.0
+
+[node name="Label" type="Label" parent="ScoreContainer"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -22.5
+offset_right = 100.0
+offset_bottom = 22.5
+grow_vertical = 2
+theme = ExtResource("3_vc3ew")
+theme_override_colors/font_color = Color(0.976471, 0.615686, 0.482353, 1)
+text = "Score:"
+
+[node name="Score" type="Label" parent="ScoreContainer"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -83.0
+offset_top = -13.0
+offset_bottom = 13.0
+grow_horizontal = 0
+grow_vertical = 2
+theme = ExtResource("3_vc3ew")
+theme_override_colors/font_color = Color(0.976471, 0.615686, 0.482353, 1)
+text = "9999999"
+horizontal_alignment = 2
+
+[node name="FruitsTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="FruitsTimer" to="." method="_on_fruits_timer_timeout"]

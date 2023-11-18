@@ -3,15 +3,28 @@
 [ext_resource type="Script" path="res://src/character.gd" id="1_hwjpl"]
 [ext_resource type="Texture2D" uid="uid://drmn8e8ogsn3h" path="res://assets/character.png" id="2_oa1rj"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_deiak"]
-size = Vector2(16, 31)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fclne"]
+radius = 7.99838
+height = 30.0342
 
 [node name="Character" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 2
+floor_max_angle = 1.0472
 script = ExtResource("1_hwjpl")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_oa1rj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.5)
-shape = SubResource("RectangleShape2D_deiak")
+position = Vector2(0, 1)
+rotation = 0.0201166
+shape = SubResource("CapsuleShape2D_fclne")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 1)
+rotation = 0.0201166
+shape = SubResource("CapsuleShape2D_fclne")

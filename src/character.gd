@@ -1,12 +1,18 @@
 extends CharacterBody2D
 
 
-const SPEED = 300.0
+const SPEED = 200.0
 const JUMP_VELOCITY = -400.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity: int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+var screen_size: Vector2
+
+
+func _ready():
+	screen_size = get_viewport_rect().size
+	
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -24,5 +30,8 @@ func _physics_process(delta: float) -> void:
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
-
+		
 	move_and_slide()
+
+	position.x = clamp(position.x, 0, screen_size.x) 
+	position.y = clamp(position.y, 0, screen_size.y)   
