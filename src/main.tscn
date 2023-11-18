@@ -1,9 +1,66 @@
-[gd_scene load_steps=5 format=3 uid="uid://bts45cp85hbqj"]
+[gd_scene load_steps=12 format=3 uid="uid://bts45cp85hbqj"]
 
-[ext_resource type="PackedScene" uid="uid://d3bco6gm5n5de" path="res://src/character.tscn" id="1_qoxd6"]
 [ext_resource type="Script" path="res://src/main.gd" id="1_yyck8"]
 [ext_resource type="PackedScene" uid="uid://cnwk8s63y5cgv" path="res://src/generator.tscn" id="2_3nmb0"]
 [ext_resource type="Theme" uid="uid://4yu34yxmkvgv" path="res://assets/fonts/default.tres" id="3_vc3ew"]
+[ext_resource type="PackedScene" uid="uid://cm34cnv0wley7" path="res://src/heart.tscn" id="5_a0tci"]
+[ext_resource type="Texture2D" uid="uid://huxmjsaip0sc" path="res://assets/blood_1.png" id="6_iynfs"]
+[ext_resource type="Texture2D" uid="uid://hsy8m6alh7ya" path="res://assets/blood_2.png" id="7_cw4v6"]
+[ext_resource type="Texture2D" uid="uid://b8ujt47cf1r7y" path="res://assets/blood_3.png" id="8_thjaq"]
+
+[sub_resource type="Animation" id="Animation_j3l31"]
+resource_name = "show"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Container:modulate")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.784314), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tbpcj"]
+_data = {
+"show": SubResource("Animation_j3l31")
+}
+
+[sub_resource type="Animation" id="Animation_e855b"]
+resource_name = "show"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6, 0.7, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(120, -400), Vector2(120, 150), Vector2(120, 130), Vector2(120, 145), Vector2(120, 135), Vector2(120, 140)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../RestartButton:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p833w"]
+_data = {
+"show": SubResource("Animation_e855b")
+}
 
 [node name="Main" type="Node"]
 script = ExtResource("1_yyck8")
@@ -66,13 +123,8 @@ color = Color(0.976471, 0.615686, 0.482353, 1)
 visible = false
 polygon = PackedVector2Array(-320, 0, -320, -216, -104, -96, 168, -96, 168, -160, 120, -160, 120, -168, 272, -168, 320, -232, 320, 0)
 
-[node name="Character" parent="." instance=ExtResource("1_qoxd6")]
-position = Vector2(287, 289)
-
 [node name="Generator" parent="." instance=ExtResource("2_3nmb0")]
 position = Vector2(320, 112)
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ScoreContainer" type="Control" parent="."]
 layout_mode = 3
@@ -107,12 +159,108 @@ offset_bottom = 13.0
 grow_horizontal = 0
 grow_vertical = 2
 theme = ExtResource("3_vc3ew")
-theme_override_colors/font_color = Color(0.976471, 0.615686, 0.482353, 1)
 text = "9999999"
 horizontal_alignment = 2
+
+[node name="HeartContainer" type="HBoxContainer" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_top = -72.0
+offset_right = -70.0
+offset_bottom = -48.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/separation = 45
+
+[node name="1" parent="HeartContainer" instance=ExtResource("5_a0tci")]
+layout_mode = 2
+
+[node name="2" parent="HeartContainer" instance=ExtResource("5_a0tci")]
+layout_mode = 2
+
+[node name="3" parent="HeartContainer" instance=ExtResource("5_a0tci")]
+layout_mode = 2
+
+[node name="Blood" type="CanvasLayer" parent="."]
+
+[node name="Container" type="Control" parent="Blood"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="_1" type="TextureRect" parent="Blood/Container"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("6_iynfs")
+
+[node name="_2" type="TextureRect" parent="Blood/Container"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("7_cw4v6")
+
+[node name="_3" type="TextureRect" parent="Blood/Container"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("8_thjaq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Blood"]
+libraries = {
+"": SubResource("AnimationLibrary_tbpcj")
+}
+
+[node name="GameOver" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="GameOver"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 202.0
+offset_bottom = -0.999023
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 70
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="GameOver"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = 8.00003
+offset_right = 33.0
+offset_bottom = 39.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Restart"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GameOver"]
+root_node = NodePath("../Label")
+libraries = {
+"": SubResource("AnimationLibrary_p833w")
+}
 
 [node name="FruitsTimer" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
 
+[connection signal="generate_ball" from="Generator" to="." method="_on_generator_generate_ball"]
+[connection signal="pressed" from="GameOver/RestartButton" to="." method="_on_restart_button_pressed"]
 [connection signal="timeout" from="FruitsTimer" to="." method="_on_fruits_timer_timeout"]

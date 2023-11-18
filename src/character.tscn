@@ -9,7 +9,7 @@ height = 30.0342
 
 [node name="Character" type="CharacterBody2D"]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 6
 floor_max_angle = 1.0472
 script = ExtResource("1_hwjpl")
 

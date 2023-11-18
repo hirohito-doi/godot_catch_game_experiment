@@ -1,5 +1,8 @@
 extends RigidBody2D
 
+signal get_injured
+
+
 func _ready():
 	# オブジェクトを上方向に飛ばす速度を設定
 	var x_direction = 1 if randf() < 0.5 else -1
@@ -12,3 +15,7 @@ func _ready():
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	if(position.y > 0):
 		queue_free()
+
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	get_injured.emit()

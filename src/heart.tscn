@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cm34cnv0wley7"]
+
+[ext_resource type="Script" path="res://src/heart.gd" id="1_6d2mb"]
+[ext_resource type="Texture2D" uid="uid://c6tgnbhdurl70" path="res://assets/heart_on.png" id="1_s8gs6"]
+[ext_resource type="Texture2D" uid="uid://c5rxhylky4qlx" path="res://assets/heart_off.png" id="2_0m3g4"]
+
+[node name="Heart" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 64.0
+offset_bottom = 64.0
+size_flags_horizontal = 4
+script = ExtResource("1_6d2mb")
+
+[node name="Active" type="Sprite2D" parent="."]
+position = Vector2(32, 32)
+scale = Vector2(2, 2)
+texture = ExtResource("1_s8gs6")
+
+[node name="Inactive" type="Sprite2D" parent="."]
+position = Vector2(32, 32)
+scale = Vector2(2, 2)
+texture = ExtResource("2_0m3g4")

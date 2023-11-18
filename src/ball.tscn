@@ -3,6 +3,9 @@
 [ext_resource type="Script" path="res://src/ball.gd" id="1_fq2rh"]
 [ext_resource type="Texture2D" uid="uid://be8ve7o7nmibd" path="res://assets/ball.png" id="2_3vwl8"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_8qy5x"]
+radius = 17.0294
+
 [sub_resource type="Animation" id="Animation_tlpuk"]
 resource_name = "roll"
 length = 1.5
@@ -24,16 +27,15 @@ _data = {
 "roll": SubResource("Animation_tlpuk")
 }
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_8qy5x"]
-radius = 15.0
-
 [node name="Ball" type="RigidBody2D"]
 collision_layer = 4
-collision_mask = 0
 script = ExtResource("1_fq2rh")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_3vwl8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8qy5x")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "roll"
@@ -41,9 +43,13 @@ libraries = {
 "": SubResource("AnimationLibrary_1bbol")
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_8qy5x")
-
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_8qy5x")
+
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
